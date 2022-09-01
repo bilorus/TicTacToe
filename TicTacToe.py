@@ -1,3 +1,5 @@
+import random
+
 from class_Cell import Cell
 
 
@@ -26,7 +28,7 @@ class TicTacToe:
     def init(self):
         for row in self.pole:
             for item in row:
-                item.value = 0
+                item.value = self.FREE_CELL
                 item.is_free = True
 
     def show(self):
@@ -41,10 +43,19 @@ class TicTacToe:
             coords = tuple(map(int, input('Введите координаты для Х через пробел: ').split()))
             cell = self.pole[coords[0]][coords[1]]
             if cell:
-                cell.value = 1
+                cell.value = self.HUMAN_X
                 cell.is_free = False
                 break
             else:
                 print('Клетка занята')
 
-
+    def computer_go(self):
+        while True:
+            row = random.choice(self.pole)
+            cell = random.choice(row)
+            if cell:
+                cell.value = self.COMPUTER_O
+                cell.is_free = False
+                break
+            else:
+                continue
