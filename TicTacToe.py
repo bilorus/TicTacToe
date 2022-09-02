@@ -1,6 +1,17 @@
 import random
 
-from class_Cell import Cell
+
+class Cell:
+    """
+    Object for game pole in class TicTacToe
+    """
+
+    def __init__(self):
+        self.value = 0  # 1 == x, 2 == 0
+        self.is_free = True
+
+    def __bool__(self):
+        return True if self.value == 0 else False
 
 
 class TicTacToe:
@@ -23,13 +34,11 @@ class TicTacToe:
     def __setitem__(self, key, value):
         self.__check_index(key)
         self.pole[key[0]][key[1]].value = value
-        self.pole[key[0]][key[1]].is_free = False
 
     def init(self):
         for row in self.pole:
             for item in row:
                 item.value = self.FREE_CELL
-                item.is_free = True
 
     def show(self):
         for i, row in enumerate(self.pole):
@@ -41,10 +50,10 @@ class TicTacToe:
     def human_go(self):
         while True:
             coords = tuple(map(int, input('Введите координаты для Х через пробел: ').split()))
+            self.__check_index(coords)
             cell = self.pole[coords[0]][coords[1]]
             if cell:
                 cell.value = self.HUMAN_X
-                cell.is_free = False
                 break
             else:
                 print('Клетка занята')
@@ -55,7 +64,6 @@ class TicTacToe:
             cell = random.choice(row)
             if cell:
                 cell.value = self.COMPUTER_O
-                cell.is_free = False
                 break
             else:
                 continue
