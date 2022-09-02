@@ -24,6 +24,13 @@ class TicTacToe:
 
     @staticmethod
     def __check_index(indx):
+        """
+        Raise IndexError if bad coordinates
+        :param indx: tuple(a, b)
+        :return: None if index is OK
+        """
+        if type(indx) not in (tuple, list) or len(indx) != 2:
+            raise IndexError('некорректно указанные индексы')
         if any(map(lambda x: type(x) is not int or x not in (0, 1, 2), indx)):
             raise IndexError('некорректно указанные индексы')
 
@@ -34,6 +41,7 @@ class TicTacToe:
     def __setitem__(self, key, value):
         self.__check_index(key)
         self.pole[key[0]][key[1]].value = value
+        self._win_check(value)
 
     def init(self):
         for row in self.pole:
