@@ -59,3 +59,37 @@ class TicTacToe:
                 break
             else:
                 continue
+
+    def _win_check(self, player):
+        for row in self.pole:
+            if all(map(lambda item: item.value == player, row)):
+                return True
+        for col in range(3):
+            column = (self.pole[0][col], self.pole[1][col], self.pole[2][col])
+            if all(map(lambda x: x.value == player, column)):
+                return True
+        gd = tuple(self.pole[i][i] for i in range(3))
+        pd = tuple(self.pole[i][2 - i] for i in range(3))
+        if all(map(lambda item: item.value == player, gd)) or all(map(lambda item: item.value == player, pd)):
+            return True
+        return False
+
+    @property
+    def is_human_win(self):
+        return self._win_check(self.HUMAN_X)
+
+    @property
+    def is_computer_win(self):
+        return self._win_check(self.COMPUTER_O)
+
+    @property
+    def is_draw(self):
+        all_elem = (x for row in self.pole for x in row)
+        if all(map(lambda item: item.is_free is False, all_elem)):
+            return True
+        return False
+
+    def __bool__(self):
+        if self.is_draw or self.is_human_win or self.is_computer_win:
+            return False
+        return True
